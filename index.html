@@ -836,7 +836,7 @@ function initConnect(){
   refresh();
   const sv=document.getElementById("ytKeySave"); if(sv) sv.addEventListener("click",()=>{ const v=(inp&&inp.value||"").trim(); if(!v){ toast("Önce anahtarı yapıştır"); return; } try{ localStorage.setItem("yt_api_key",v); }catch(e){} if(inp) inp.value=""; refresh(); updateSearchHint(); toast("YouTube anahtarı kaydedildi ✓"); });
   const cl=document.getElementById("ytKeyClear"); if(cl) cl.addEventListener("click",()=>{ try{ localStorage.removeItem("yt_api_key"); }catch(e){} refresh(); updateSearchHint(); toast("Anahtar temizlendi"); });
-  spotifyHandleRedirect().then(()=>renderSpotifyPanel()).catch(()=>renderSpotifyPanel());
+  spotifyHandleRedirect().then(()=>{ renderSpotifyPanel(); if(typeof loadStats==="function") loadStats(statsRange); }).catch(()=>renderSpotifyPanel());
 }
 
 const DEMO_STATS={
@@ -864,7 +864,7 @@ async function loadStats(range){
     _renderArtists(a.items.map(x=>({name:x.name,img:(x.images&&(x.images[2]||x.images[1]||x.images[0])||{}).url})));
     const gc={}; a.items.forEach(x=>(x.genres||[]).forEach(g=>{gc[g]=(gc[g]||0)+1;}));
     const garr=Object.entries(gc).map(([name,count])=>({name,count})).sort((p,q)=>q.count-p.count).slice(0,8);
-    if(garr.length) _renderGenres(garr);
+    if(garr.length){ _renderGenres(garr); } else { const _ge=document.getElementById("topGenres"); if(_ge){ _ge.textContent=""; const _d=document.createElement("div"); _d.style.color="var(--text-mute)"; _d.style.fontSize=".85rem"; _d.style.lineHeight="1.5"; _d.textContent="Spotify bu hesap icin tur (genre) verisi saglamiyor; en cok dinlenen sanatci ve sarkilar gercek verinle dolu."; _ge.appendChild(_d); } }
   }
   const t=await spotifyApi(`/me/top/tracks?time_range=${statsRange}&limit=10`);
   if(t&&t.items) _renderTracks("topTracks",t.items.map(x=>({name:x.name,artist:(x.artists||[]).map(y=>y.name).join(", "),cov:(x.album&&x.album.images&&(x.album.images[x.album.images.length-1]||{}).url),url:x.external_urls&&x.external_urls.spotify})));
