@@ -4,6 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Müzik Merkezim</title>
+<meta name="theme-color" content="#0a1430" />
+<meta name="description" content="Van Gogh temalı kişisel müzik merkezi ve Spotify istatistikleri" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Müzik Merkezim" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -235,6 +242,26 @@
   header.hero{position:relative;z-index:3}
   header.hero h1{text-shadow:0 2px 34px rgba(8,16,40,0.65)}
   header.hero .tagline{text-shadow:0 1px 16px rgba(8,16,40,0.7)}
+  /* === V10: now playing + profil === */
+  .np-live{padding:14px 16px;margin-bottom:16px}
+  .np-in{display:flex;align-items:center;gap:14px}
+  .np-art{width:60px;height:60px;border-radius:10px;object-fit:cover;flex:0 0 auto;box-shadow:0 8px 20px -8px #000}
+  .np-meta{min-width:0;flex:1}
+  .np-tag{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:7px}
+  .np-dot{width:8px;height:8px;border-radius:50%;background:var(--c-spotify);box-shadow:0 0 8px var(--c-spotify);animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.7)}}
+  .np-name{font-family:'Fraunces',serif;font-size:1.1rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+  .np-artist{font-size:.85rem;color:var(--text-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .np-bar{height:5px;border-radius:99px;background:var(--surface-2);margin-top:8px;overflow:hidden}
+  .np-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--rose));border-radius:99px;transition:width 1s linear}
+  .prof-row{margin-bottom:18px}
+  .prof-h{font-size:.9rem;color:var(--text-dim);margin-bottom:8px}
+  .prof-h b{color:var(--gold)}
+  .prof-sub{font-size:.76rem;color:var(--text-mute);margin-top:5px}
+  .dec{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+  .dec .dl{font-size:.78rem;color:var(--text-mute);width:46px;flex:0 0 auto}
+  .dec .dc{font-size:.76rem;color:var(--text-mute);width:18px;text-align:right;flex:0 0 auto}
+  .bar.sm{flex:1}
 </style>
 </head>
 <body>
@@ -330,6 +357,7 @@
   <!-- İSTATİSTİKLER -->
   <section class="block wrap reveal" id="stats">
     <div class="sec-head"><div class="eyebrow">istatistik</div><h2>Dinleme İstatistiklerim</h2><p>Spotify ile bağlanınca en çok dinlediklerin burada belirir. <span id="statsDemoNote">(Şu an örnek veriler gösteriliyor.)</span></p></div>
+    <div id="nowPlaying" class="glass np-live" style="display:none"></div>
     <div class="stats-toolbar">
       <div class="tabs" id="rangeTabs">
         <button class="tab active" data-range="short_term">Son 4 hafta</button>
@@ -340,7 +368,7 @@
     </div>
     <div class="stats-grid">
       <div class="glass stats-card"><h3 class="stats-h">En Çok Dinlenen Sanatçılar</h3><div id="topArtists" class="artist-row"></div></div>
-      <div class="glass stats-card"><h3 class="stats-h">Türlerin</h3><div id="topGenres" class="genre-wrap"></div></div>
+      <div class="glass stats-card"><h3 class="stats-h">Müzik Profilin</h3><div id="topGenres" class="genre-wrap"></div></div>
       <div class="glass stats-card"><h3 class="stats-h">En Çok Dinlenen Şarkılar</h3><ol id="topTracks" class="track-list"></ol></div>
       <div class="glass stats-card"><h3 class="stats-h">Son Çalınanlar</h3><ol id="recentTracks" class="track-list"></ol></div>
     </div>
@@ -735,9 +763,9 @@ function initSky(){
   const rand=(a,b)=>a+Math.random()*(b-a);
   const COL={gold:"236,184,99",rose:"120,170,225",teal:"132,224,214"};
   function build(){
-    const n=Math.round(Math.min(window.innerWidth,1600)/8);
+    const n=Math.round(Math.min(window.innerWidth,1600)/6);
     stars=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:rand(.4,1.5)*DPR,a:rand(.2,.9),tw:rand(.6,2.2),ph:rand(0,Math.PI*2),vy:rand(.02,.10)*DPR,hue:Math.random()<.18?"teal":(Math.random()<.3?"rose":"gold")}));
-    const m=Math.round(Math.min(window.innerWidth,1600)/120);
+    const m=Math.round(Math.min(window.innerWidth,1600)/90);
     motes=Array.from({length:m},()=>({x:Math.random()*W,y:Math.random()*H,r:rand(8,20)*DPR,a:rand(.05,.16),vx:rand(-.06,.06)*DPR,vy:rand(-.18,-.05)*DPR}));
   }
   function resize(){DPR=Math.min(window.devicePixelRatio||1,2);W=c.width=Math.floor(window.innerWidth*DPR);H=c.height=Math.floor(window.innerHeight*DPR);c.style.width=window.innerWidth+"px";c.style.height=window.innerHeight+"px";build();}
@@ -777,7 +805,7 @@ function updateSearchHint(){ const el=document.getElementById("searchHint"); if(
 
 /* ---- Spotify (PKCE, secret yok) ---- */
 const SP={ id:()=>CONFIG.spotifyClientId||"", redirect:()=>location.origin+location.pathname,
-  scope:"user-top-read user-read-recently-played playlist-read-private user-read-email",
+  scope:"user-top-read user-read-recently-played user-read-currently-playing playlist-read-private user-read-email",
   tok:()=>{ try{ return JSON.parse(localStorage.getItem("sp_tok")||"null"); }catch(e){ return null; } },
   setTok:t=>{ try{ localStorage.setItem("sp_tok",JSON.stringify(t)); }catch(e){} },
   clear:()=>{ try{ localStorage.removeItem("sp_tok"); }catch(e){} } };
@@ -868,6 +896,7 @@ async function loadStats(range){
   }
   const t=await spotifyApi(`/me/top/tracks?time_range=${statsRange}&limit=10`);
   if(t&&t.items) _renderTracks("topTracks",t.items.map(x=>({name:x.name,artist:(x.artists||[]).map(y=>y.name).join(", "),cov:(x.album&&x.album.images&&(x.album.images[x.album.images.length-1]||{}).url),url:x.external_urls&&x.external_urls.spotify})));
+  _profileRender(a,t);
   const r=await spotifyApi(`/me/player/recently-played?limit=10`);
   if(r&&r.items) _renderTracks("recentTracks",r.items.map(it=>({name:it.track.name,artist:(it.track.artists||[]).map(y=>y.name).join(", "),cov:(it.track.album&&it.track.album.images&&(it.track.album.images[it.track.album.images.length-1]||{}).url),url:it.track.external_urls&&it.track.external_urls.spotify})));
 }
@@ -877,7 +906,38 @@ function initStats(){
   const sc=document.getElementById("statsConnect"); if(sc) sc.addEventListener("click",()=>{ if(typeof spotifyConnect==="function") spotifyConnect(); });
   ["topTracks","recentTracks"].forEach(id=>{ const el=document.getElementById(id); if(el) el.addEventListener("click",e=>{ const li=e.target.closest("[data-purl]"); if(li) playItem(normalize(li.getAttribute("data-purl"))); }); });
   loadStats(statsRange);
+  startNowPlaying();
 }
+
+function _profileRender(a,t){
+  const el=document.getElementById("topGenres"); if(!el) return;
+  const arts=(a&&a.items)||[], trks=(t&&t.items)||[];
+  const dec={}; trks.forEach(x=>{ const y=(x.album&&x.album.release_date||"").slice(0,4); const n=parseInt(y,10); if(!isNaN(n)){ const k=Math.floor(n/10)*10; dec[k]=(dec[k]||0)+1; } });
+  const decArr=Object.entries(dec).map(([y,c])=>({y:+y,c})).sort((p,q)=>p.y-q.y);
+  const maxc=Math.max(1,...decArr.map(d=>d.c));
+  const pops=arts.map(x=>x.popularity).filter(n=>typeof n==="number");
+  const ms=pops.length?Math.round(pops.reduce((s,n)=>s+n,0)/pops.length):null;
+  let html="";
+  if(ms!=null){ const lab= ms>=70?"ana akım":(ms>=45?"dengeli":"niş / underground"); html+=`<div class="prof-row"><div class="prof-h">Ne kadar mainstream? <b>${lab}</b></div><div class="bar"><i style="width:${ms}%"></i></div><div class="prof-sub">Ortalama sanatçı popülerliği: ${ms}/100</div></div>`; }
+  if(decArr.length){ html+=`<div class="prof-row"><div class="prof-h">Şarkıların on yıllara göre</div>`+decArr.map(d=>`<div class="dec"><span class="dl">${d.y}s</span><div class="bar sm"><i style="width:${Math.round(d.c/maxc*100)}%"></i></div><span class="dc">${d.c}</span></div>`).join("")+`</div>`; }
+  if(!html) html='<div style="color:var(--text-mute);font-size:.85rem">Profil için yeterli veri yok.</div>';
+  el.innerHTML=html;
+}
+let _npTimer=null;
+async function nowPlaying(){
+  const el=document.getElementById("nowPlaying"); if(!el) return;
+  let tk=null; try{ tk=await spotifyToken(); }catch(e){}
+  if(!tk){ el.style.display="none"; return; }
+  let data=null;
+  try{ const r=await fetch("https://api.spotify.com/v1/me/player/currently-playing",{headers:{Authorization:"Bearer "+tk}}); if(r.status===200) data=await r.json(); }catch(e){}
+  if(!data||!data.item){ el.style.display="none"; return; }
+  const it=data.item, art=(it.album&&it.album.images&&(it.album.images[1]||it.album.images[0])||{}).url;
+  const prog=it.duration_ms?Math.min(100,Math.round((data.progress_ms/it.duration_ms)*100)):0;
+  const tag = data.is_playing ? '<span class="np-dot"></span> Spotify’da şu an çalıyor' : 'duraklatıldı';
+  el.style.display="";
+  el.innerHTML=`<div class="np-in">${art?`<img class="np-art" src="${art}" alt="">`:""}<div class="np-meta"><div class="np-tag">${tag}</div><div class="np-name">${it.name}</div><div class="np-artist">${(it.artists||[]).map(y=>y.name).join(", ")}</div><div class="np-bar"><i style="width:${prog}%"></i></div></div></div>`;
+}
+function startNowPlaying(){ if(_npTimer) return; nowPlaying(); _npTimer=setInterval(nowPlaying, 15000); }
 
 /* ---------- Başlat ---------- */
 function init(){
@@ -905,6 +965,8 @@ function init(){
   initStats();
 }
 init();
+
+if('serviceWorker' in navigator){ window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); }); }
 </script>
 </body>
 </html>
