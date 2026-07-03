@@ -262,7 +262,117 @@
   .dec .dl{font-size:.78rem;color:var(--text-mute);width:46px;flex:0 0 auto}
   .dec .dc{font-size:.76rem;color:var(--text-mute);width:18px;text-align:right;flex:0 0 auto}
   .bar.sm{flex:1}
+  /* ============ V11: 1337 / Y2K / EMO / OLD-WEB / 4CHAN SKIN ============ */
+  :root{
+    --bg-0:#05060a; --bg-1:#0a0a12; --bg-2:#0d0b16;
+    --surface:rgba(12,14,22,0.85); --surface-2:rgba(20,22,34,0.92); --solid:#0b0d14;
+    --border:rgba(255,45,149,0.40); --border-soft:rgba(57,255,20,0.55);
+    --text:#d6ffe2; --text-dim:#9fe6c0; --text-mute:#7d8a86;
+    --gold:#39ff14; --gold-soft:#a3ff8f; --rose:#ff2d95; --violet:#00e5ff; --teal:#00e5ff;
+  }
+  html,body{cursor:crosshair}
+  a,button,input,.tab,.chip,.record,.embed-card,.nav-links a{cursor:pointer}
+  body{
+    font-family:'VT323','Share Tech Mono',monospace !important;
+    font-size:1.35rem; line-height:1.35; letter-spacing:.01em; color:var(--text) !important;
+    background:
+      repeating-linear-gradient(0deg, rgba(57,255,20,0.035) 0 2px, transparent 2px 4px),
+      radial-gradient(circle at 15% -10%, rgba(255,45,149,0.14), transparent 55%),
+      radial-gradient(circle at 88% 8%, rgba(0,229,255,0.12), transparent 55%),
+      #05060a !important;
+  }
+  /* CRT scanline + vignette + flicker */
+  .crt{position:fixed;inset:0;z-index:70;pointer-events:none;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,0.22) 0 1px, transparent 1px 3px);
+    mix-blend-mode:multiply;opacity:.55;animation:flick 5s steps(60) infinite}
+  .crt::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center, transparent 58%, rgba(0,0,0,0.55))}
+  @keyframes flick{0%,97%,100%{opacity:.5}98%{opacity:.72}99%{opacity:.42}}
+  .hero-scene{display:none !important}
+  body::after{opacity:.12 !important}
+
+  /* Fontlar */
+  .hero h1, .brand{font-family:'Press Start 2P',monospace !important}
+  .sec-head h2, .eyebrow, .stats-h, .tab, .nav-links a, .chip, .btn, .np-name, .np-tag, footer{font-family:'VT323','Share Tech Mono',monospace !important}
+  .hero h1{font-size:clamp(1.6rem,5vw,2.8rem) !important; line-height:1.28 !important; letter-spacing:0 !important;
+    -webkit-text-fill-color:var(--gold) !important; color:var(--gold) !important;
+    text-shadow:2px 0 var(--rose), -2px 0 var(--violet); animation:glitch 3s steps(2) infinite !important}
+  .hero h1::after{content:"_"; color:var(--gold); animation:blink 1s steps(1) infinite}
+  @keyframes glitch{0%,90%,100%{text-shadow:2px 0 var(--rose),-2px 0 var(--violet);transform:none}
+    92%{text-shadow:-3px 0 var(--rose),3px 0 var(--violet);transform:translate(2px,-1px)}
+    94%{text-shadow:3px 0 var(--violet),-3px 0 var(--rose);transform:translate(-2px,1px)}
+    96%{text-shadow:2px 0 var(--gold),-2px 0 var(--rose);transform:translate(1px,0)}}
+  @keyframes blink{50%{opacity:0}}
+  .brand{font-size:.82rem !important}
+  .sec-head h2{font-size:clamp(1.6rem,4vw,2.4rem) !important; text-transform:uppercase; letter-spacing:.03em; color:var(--gold)}
+  .sec-head h2::after{background:linear-gradient(90deg,var(--gold),var(--rose),transparent) !important;height:2px !important}
+  .eyebrow{font-size:1rem !important; letter-spacing:.28em; color:var(--rose) !important}
+  .stats-h{font-size:1.45rem !important; text-transform:uppercase; letter-spacing:.05em; color:var(--gold)}
+  .tagline{font-style:normal !important; color:var(--text-dim) !important}
+  .tagline::before{content:"> "; color:var(--gold)}
+
+  /* Köşeli her şey */
+  .glass,.chip,.btn,.record,.embed-card,.tab,.field,.src-badge,.av,.record .art,.record .art img,.record .art .disc,.np-art,.track-list .cov,.moon,#toast,.stage-empty,.frame-yt,.frame-std iframe{border-radius:0 !important}
+
+  /* Paneller = eski web pencereleri */
+  .glass{background:var(--surface) !important; border:1px solid var(--gold) !important;
+    box-shadow:5px 5px 0 rgba(255,45,149,0.35), 0 0 22px rgba(57,255,20,0.12) !important; backdrop-filter:none !important}
+  .glass::before{background:var(--gold) !important; height:2px !important}
+  .player-card::after{background:none !important}
+
+  /* NAV */
+  nav{background:#05060a !important; border-bottom:2px solid var(--gold) !important; backdrop-filter:none !important}
+  .brand .star{color:var(--rose) !important; filter:none !important}
+  .nav-links a{color:var(--gold) !important; text-transform:uppercase; font-size:1.05rem; letter-spacing:.04em}
+  .nav-links a::before{content:"["} .nav-links a::after{content:"]"}
+  .nav-links a:hover{color:var(--rose) !important; background:transparent !important; text-shadow:0 0 8px var(--rose)}
+
+  /* Ticker */
+  .ticker{position:sticky;top:0;z-index:48;background:#0b0d14;border-bottom:1px solid var(--rose);
+    overflow:hidden;white-space:nowrap;color:var(--gold);font-family:'VT323',monospace;font-size:1.1rem;padding:3px 0}
+  .ticker-in{display:inline-block;padding-left:100%;animation:mq 26s linear infinite}
+  .ticker-in:hover{animation-play-state:paused}
+  @keyframes mq{to{transform:translateX(-100%)}}
+
+  /* Butonlar */
+  .btn{border:1px solid var(--gold) !important; text-transform:uppercase; letter-spacing:.05em; font-size:1.1rem; box-shadow:3px 3px 0 var(--rose)}
+  .btn-primary{background:var(--gold) !important; color:#05060a !important}
+  .btn-primary:hover{background:var(--rose) !important; color:#05060a !important; box-shadow:3px 3px 0 var(--violet) !important; transform:translate(-1px,-1px)}
+  .btn-ghost{background:#0b0d14 !important; color:var(--gold) !important; border-color:var(--gold-soft) !important}
+  .btn-ghost:hover{color:var(--rose) !important; border-color:var(--rose) !important; box-shadow:3px 3px 0 var(--violet) !important}
+
+  /* chips = #tag */
+  .chip{border:1px solid var(--rose) !important; color:var(--rose) !important; background:#0b0d14 !important; text-transform:lowercase; font-size:1rem}
+  .chip::before{content:"#"}
+  .chip:hover{color:#05060a !important; background:var(--rose) !important}
+
+  /* moon avatar = pixel og av */
+  .moon{background:linear-gradient(135deg,var(--rose),var(--violet)) !important; color:#05060a !important;
+    box-shadow:0 0 0 3px #05060a, 0 0 0 6px var(--gold), 0 0 28px var(--gold) !important; image-rendering:pixelated}
+  .moon::before{display:none !important}
+
+  /* tabs */
+  .tab{border:1px solid var(--gold-soft) !important; color:var(--gold) !important; background:#0b0d14 !important; text-transform:uppercase; font-size:1.05rem}
+  .tab.active{background:var(--rose) !important; color:#05060a !important; border-color:var(--rose) !important}
+
+  /* şimdi çalıyor */
+  .np-tag{color:var(--gold) !important}
+  .np-name{color:var(--rose) !important}
+  .np-bar i, .bar i, .np-dot{box-shadow:0 0 8px currentColor}
+
+  /* alanlar */
+  .field{border:1px solid var(--gold-soft) !important; background:#0b0d14 !important}
+  .field input{color:var(--gold) !important; font-family:'VT323',monospace !important; font-size:1.15rem}
+
+  /* scrollbar */
+  ::-webkit-scrollbar-thumb{background:var(--gold) !important; border:2px solid #05060a !important; border-radius:0 !important}
+  ::-webkit-scrollbar-track{background:#0b0d14 !important}
+
+  footer{border-top:1px solid var(--rose) !important; color:var(--text-mute)}
+  footer .heart{color:var(--rose) !important}
+
+  @media (prefers-reduced-motion:reduce){.crt{animation:none}.hero h1{animation:none}.ticker-in{animation:none;padding-left:0}}
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -330,6 +440,8 @@
       </div>
     </div>
   </nav>
+  <div class="ticker" aria-hidden="true"><div class="ticker-in">&gt;&gt;&gt; W3LC0M3 2 TH3 M3RK3Z · b3st v13w3d @ 1337x1337 · ♥ st4y 3dgy 4 3v3r ♥ · xX_starry_knight_Xx · [ n0w sp1nn1ng: ur v1b3z ] · ░▒▓ 01101101 75 73 69 63 ▓▒░ · &lt;3 &lt;3 &lt;3 · n0 l1f3 · pr3ss st4rt · &gt;&gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp;</div></div>
+  <div class="crt" aria-hidden="true"></div>
 
   <header class="hero wrap">
     <div id="moon" class="moon"></div>
@@ -761,7 +873,7 @@ function initSky(){
   const c=document.getElementById("sky"),ctx=c.getContext("2d");
   let W,H,DPR,stars=[],motes=[],raf=null,t0=performance.now();
   const rand=(a,b)=>a+Math.random()*(b-a);
-  const COL={gold:"236,184,99",rose:"120,170,225",teal:"132,224,214"};
+  const COL={gold:"57,255,20",rose:"255,45,149",teal:"0,229,255"};
   function build(){
     const n=Math.round(Math.min(window.innerWidth,1600)/6);
     stars=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:rand(.4,1.5)*DPR,a:rand(.2,.9),tw:rand(.6,2.2),ph:rand(0,Math.PI*2),vy:rand(.02,.10)*DPR,hue:Math.random()<.18?"teal":(Math.random()<.3?"rose":"gold")}));
@@ -772,7 +884,7 @@ function initSky(){
   function frame(t){
     const dt=t-t0;t0=t;ctx.clearRect(0,0,W,H);
     for(const o of motes){o.x+=o.vx*dt*.06;o.y+=o.vy*dt*.06;if(o.y<-30){o.y=H+20;o.x=Math.random()*W;}if(o.x<-30)o.x=W+20;if(o.x>W+30)o.x=-20;const g=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);g.addColorStop(0,`rgba(244,210,154,${o.a})`);g.addColorStop(1,"rgba(244,210,154,0)");ctx.fillStyle=g;ctx.beginPath();ctx.arc(o.x,o.y,o.r,0,Math.PI*2);ctx.fill();}
-    for(let _i=0;_i<stars.length;_i++){const _a=stars[_i];for(let _j=_i+1;_j<stars.length;_j++){const _b=stars[_j];const _dx=_a.x-_b.x,_dy=_a.y-_b.y,_d2=_dx*_dx+_dy*_dy,_mx=(130*DPR)*(130*DPR);if(_d2<_mx){const _al=0.13*(1-_d2/_mx);ctx.strokeStyle=`rgba(170,150,235,${_al.toFixed(3)})`;ctx.lineWidth=DPR*0.5;ctx.beginPath();ctx.moveTo(_a.x,_a.y);ctx.lineTo(_b.x,_b.y);ctx.stroke();}}}
+    for(let _i=0;_i<stars.length;_i++){const _a=stars[_i];for(let _j=_i+1;_j<stars.length;_j++){const _b=stars[_j];const _dx=_a.x-_b.x,_dy=_a.y-_b.y,_d2=_dx*_dx+_dy*_dy,_mx=(130*DPR)*(130*DPR);if(_d2<_mx){const _al=0.13*(1-_d2/_mx);ctx.strokeStyle=`rgba(57,255,20,${_al.toFixed(3)})`;ctx.lineWidth=DPR*0.5;ctx.beginPath();ctx.moveTo(_a.x,_a.y);ctx.lineTo(_b.x,_b.y);ctx.stroke();}}}
     for(const s of stars){s.y+=s.vy*dt*.06;if(s.y>H+2){s.y=-2;s.x=Math.random()*W;}const tw=0.55+0.45*Math.sin(t*0.001*s.tw+s.ph);ctx.fillStyle=`rgba(${COL[s.hue]},${(s.a*tw).toFixed(3)})`;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();}
     raf=requestAnimationFrame(frame);
   }
